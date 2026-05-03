@@ -1,0 +1,51 @@
+﻿ID Pregunta,Pregunta,Respuesta Seleccionada
+1,¿Qué palabra reservada se utiliza en Java para declarar una variable como constante impidiendo que su valor sea modificado?,Sin responder
+2,Si declaramos una variable de tipo primitivo dentro de un bloque `if` ¿cuál es su ámbito (scope)?,Sin responder
+3,¿Cuál de los siguientes es el operador relacional de igualdad en Java?,Sin responder
+4,¿Qué es el 'Casting' en Java?,Sin responder
+5,En la Programación Orientada a Objetos ¿cómo se representa el ESTADO de un objeto?,Sin responder
+6,¿Qué significa 'sobrecargar' (overload) un método en Java?,Sin responder
+7,Si definimos un método que realiza una acción pero no necesita devolver ningún resultado ¿qué tipo de retorno usamos en su firma?,Sin responder
+8,¿Cuál es la principal ventaja del Encapsulamiento en Java?,Sin responder
+9,En relación con el encapsulamiento ¿para qué sirven los métodos 'Getters' y 'Setters'?,Sin responder
+10,¿Qué regla de sintaxis es obligatoria al crear un método Constructor?,Sin responder
+11,¿Para qué se utiliza la palabra reservada `this` dentro de una clase?,Sin responder
+12,¿Cuál es la función del 'Garbage Collector' (Recolector de Basura) de la JVM?,Sin responder
+13,Si un objeto no ha sido instanciado con `new` y no apunta a ningún espacio en memoria su valor por defecto es:,Sin responder
+14,¿Cuál es la clase Wrapper (Envoltorio) correspondiente al tipo primitivo `int`?,Sin responder
+15,¿Cuál es la sintaxis correcta del operador ternario en Java?,Sin responder
+16,En las estructuras de control lógicas ¿cuál es el propósito de `else if`?,Sin responder
+17,A partir de versiones modernas de Java ¿qué tipo de variable compleja permite evaluar un bloque `switch` además de enteros o caracteres?,Sin responder
+18,Si necesitas recorrer un Array de principio a fin elemento por elemento la forma más limpia y recomendada es:,Sin responder
+19,¿Qué estructura de repetición evalúa la condición al FINAL de la iteración garantizando que el bloque de código se ejecute como mínimo una vez?,Sin responder
+20,Si queremos interrumpir y salir por completo de la ejecución de un bucle antes de que termine usamos la sentencia:,Sin responder
+21,En la gestión de excepciones ¿qué bloque de código se ejecuta SIEMPRE al final independientemente de si ocurrió o no un error?,Sin responder
+22,En la jerarquía de errores de Java ¿cuál es la clase padre (superclase) absoluta de la que derivan tanto `Error` como `Exception`?,Sin responder
+23,¿Qué indica la palabra reservada `throws` en la firma de un método (ej. `public void leer() throws IOException`)?,Sin responder
+24,Durante la depuración de código (Debug) en Eclipse ¿para qué sirve establecer un 'Breakpoint' (Punto de interrupción)?,Sin responder
+25,En las relaciones entre clases ¿qué caracteriza a una 'Composición' frente a una Asociación simple?,Sin responder
+26,¿Qué palabra reservada permite que una clase herede los atributos y métodos de otra clase en Java?,Sin responder
+27,En una clase 'Hija' que hereda de una clase 'Padre' ¿para qué se utiliza la palabra `super`?,Sin responder
+28,¿Qué es el 'Polimorfismo' en la Programación Orientada a Objetos?,D) Generar múltiples constructores dentro de una clase.
+29,Si vemos la anotación `@Override` justo encima de un método significa que:,Sin responder
+30,¿Qué diferencia principal hay entre una Clase Abstracta y una Interfaz?,Sin responder
+31,¿Cómo se declara correctamente una matriz (Array bidimensional) de números enteros en Java?,Sin responder
+32,Al aplicar un algoritmo de ordenación básico sobre un Array numérico desordenado el resultado esperado es:,Sin responder
+33,La clase `String` en Java es 'inmutable' lo que significa que:,Sin responder
+34,Si aplicas el método `split('-')` a la cadena 'Juan-Perez-Lopez' ¿qué obtienes como resultado?,Sin responder
+35,¿Cuál es el propósito principal de usar Genéricos (la notación `<T>`) en colecciones como ArrayList?,Sin responder
+36,Dentro de la API de Colecciones ¿cuál es la interfaz raíz (Top-Level) de la que derivan List Set y Queue?,Sin responder
+37,¿Cuál es la principal diferencia entre un `ArrayList` y un Array tradicional (`[]`)?,Sin responder
+38,Si necesitas almacenar elementos garantizando que NO HAYA DUPLICADOS la implementación más adecuada es:,D) HashSet
+39,La interfaz `Map` almacena la información mediante un sistema de:,Sin responder
+40,Al trabajar con un `HashMap` ¿qué devuelve el método `keySet()`?,Sin responder
+41,En la gestión de Entrada/Salida (I/O) en Java ¿qué es un 'Stream'?,Sin responder
+42,¿Cuál es la función específica de la clase `File` del paquete `java.io`?,Sin responder
+43,Para leer caracteres de un archivo de texto con alta eficiencia reduciendo las llamadas al disco se suele envolver el `FileReader` en un:,Sin responder
+44,Si necesitamos guardar el estado de un objeto Java directamente en un archivo binario el objeto debe implementar la interfaz:,Sin responder
+45,En la Programación Dirigida por Eventos (ej. Interfaces Gráficas) ¿qué papel cumple un 'Listener' (Oyente)?,Sin responder
+46,En una Base de Datos Relacional ¿qué nombre recibe la estructura bidimensional compuesta por columnas (campos) y filas (registros)?,Sin responder
+47,Teniendo en cuenta el estándar ¿a qué subgrupo del lenguaje SQL pertenecen las sentencias SELECT INSERT UPDATE y DELETE?,Sin responder
+48,En la arquitectura JDBC para conectar Java a una Base de Datos ¿cuál es la función principal del 'Driver'?,Sin responder
+49,Al ejecutar una consulta 'SELECT' mediante JDBC el conjunto de filas devuelto por la base de datos se almacena en un objeto Java de tipo:,Sin responder
+50,Frente a bases de objetos puros como Neodatis el mercado actual demanda bases NoSQL como MongoDB que usan el formato estructurado:,Sin responder

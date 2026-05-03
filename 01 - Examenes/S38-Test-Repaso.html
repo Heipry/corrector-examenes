@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termómetro de Java - Sesión 38</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .noselect {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 noselect">
+    
+    <div id="app" class="bg-white rounded-xl shadow-lg p-8 w-full max-w-3xl">
+        <div id="start-screen" class="text-center">
+            <h1 class="text-3xl font-bold text-blue-800 mb-4">Termómetro de Java (Simulacro S38)</h1>
+            <p class="text-gray-600 mb-6">Esta prueba consta de 30 preguntas que abarcan desde Fundamentos hasta Persistencia en la Nube. Dispones de 60 minutos. Al finalizar, se descargará un archivo con tus respuestas para entregar al profesor.</p>
+            <input type="text" id="student-name" placeholder="Escribe tu Nombre y Apellidos" class="w-full p-3 border rounded-lg mb-4 text-center focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="start-btn" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition">Comenzar Prueba</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <span id="question-counter" class="text-sm font-bold text-gray-500">Pregunta 1 de 30</span>
+                <span class="text-sm font-bold text-blue-600">Tiempo restante: <span id="timer">60:00</span></span>
+            </div>
+            
+            <h2 id="question-text" class="text-xl font-semibold text-gray-800 mb-6 min-h-[4rem]"></h2>
+            
+            <div id="options-container" class="space-y-3 mb-8">
+                </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="bg-gray-300 text-gray-700 px-6 py-2 rounded font-bold hover:bg-gray-400 disabled:opacity-50 transition" disabled>Anterior</button>
+                <button id="next-btn" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700 transition">Siguiente</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden text-center">
+            <h2 class="text-3xl font-bold text-green-600 mb-4">¡Prueba Finalizada!</h2>
+            <p class="text-xl text-gray-700 mb-6">Tus respuestas se han guardado correctamente.</p>
+            <p class="text-sm text-gray-500 mb-6">Se ha descargado automáticamente un archivo CSV en tu ordenador. Por favor, <b>envía ese archivo al profesor</b> para su corrección.</p>
+        </div>
+    </div>
+
+    <script>
+        // EL BANCO DE 30 PREGUNTAS
+        const misPreguntas = [
+            // BLOQUE 1: FUNDAMENTOS Y POO BASE
+            { id: 1, question: "¿Qué palabra reservada se utiliza en Java para declarar una variable como constante, impidiendo que su valor sea modificado?", options: ["A) static", "B) const", "C) final", "D) var"] },
+            { id: 2, question: "Si declaramos una variable de tipo primitivo dentro de un bloque `if`, ¿cuál es su ámbito (scope)?", options: ["A) Es accesible desde cualquier parte del código.", "B) Es accesible únicamente dentro de ese bloque if.", "C) Es accesible en todo el método de forma pública.", "D) Es accesible globalmente en el sistema."] },
+            { id: 3, question: "¿Cuál de los siguientes es el operador relacional de igualdad en Java?", options: ["A) =", "B) ===", "C) !=", "D) =="] },
+            { id: 4, question: "¿Cuál es el punto de entrada principal de cualquier aplicación Java estándar?", options: ["A) public void main(String args)", "B) public static void main(String[] args)", "C) static void main()", "D) public static main(String args)"] },
+            { id: 5, question: "¿Qué tipo de dato primitivo utilizarías para almacenar un valor de verdadero o falso?", options: ["A) String", "B) bool", "C) boolean", "D) bit"] },
+            { id: 6, question: "En Programación Orientada a Objetos, ¿qué es un constructor?", options: ["A) Un método especial que se llama automáticamente al crear un objeto con 'new'.", "B) Una clase que construye a otras clases.", "C) Un método estático que devuelve un número entero.", "D) El recolector de basura de Java."] },
+            { id: 7, question: "¿Qué palabra clave se usa para que una clase herede de otra en Java?", options: ["A) implements", "B) extends", "C) inherits", "D) super"] },
+            { id: 8, question: "¿Cómo logramos el encapsulamiento básico de un atributo en Java?", options: ["A) Declarando el atributo como 'public' y usando métodos estáticos.", "B) Declarando el atributo como 'private' y accediendo a él mediante métodos Getters y Setters.", "C) Declarando el atributo como 'protected' sin métodos adicionales.", "D) Utilizando la palabra reservada 'final'."] },
+            { id: 9, question: "En el manejo de excepciones, ¿qué bloque de código se ejecuta SIEMPRE, haya ocurrido un error o no?", options: ["A) try", "B) catch", "C) throw", "D) finally"] },
+            { id: 10, question: "¿Qué excepción se lanza cuando intentamos acceder a un método de un objeto que es 'null'?", options: ["A) ArrayIndexOutOfBoundsException", "B) NullPointerException", "C) ClassNotFoundException", "D) ArithmeticException"] },
+            { id: 11, question: "Si un array tiene un tamaño de 5, ¿cuál es el índice de su último elemento?", options: ["A) 5", "B) 4", "C) 6", "D) Depende del tipo de dato"] },
+            { id: 12, question: "¿Qué característica de la POO permite que un mismo método responda de distintas formas según el objeto que lo llama?", options: ["A) Herencia", "B) Encapsulamiento", "C) Polimorfismo", "D) Abstracción"] },
+            { id: 13, question: "¿Puede una clase en Java heredar (extends) de múltiples clases a la vez?", options: ["A) Sí, usando comas.", "B) Sí, pero solo si son abstractas.", "C) No, Java solo soporta herencia simple de clases.", "D) No, a menos que se use la clase Object."] },
+            { id: 14, question: "¿Qué palabra clave se usa para indicar que una clase firma un 'contrato' para implementar los métodos de una Interfaz?", options: ["A) extends", "B) implements", "C) using", "D) import"] },
+            { id: 15, question: "La clase padre de TODAS las clases en Java es:", options: ["A) Main", "B) System", "C) Object", "D) BaseClass"] },
+            
+            // BLOQUE 2: COLECCIONES Y FICHEROS
+            { id: 16, question: "A diferencia de un Array tradicional estático (`int[]`), ¿qué ventaja principal ofrece un `ArrayList`?", options: ["A) Consume mucha menos memoria RAM.", "B) Su tamaño es dinámico y crece automáticamente al añadir elementos.", "C) Solo permite almacenar tipos primitivos.", "D) Es más rápido que un Array estático."] },
+            { id: 17, question: "Si necesitamos guardar pares de datos vinculados (ej. DNI -> Nombre) buscando un acceso muy rápido mediante la 'Clave', ¿qué colección es la ideal?", options: ["A) ArrayList", "B) LinkedList", "C) HashMap", "D) HashSet"] },
+            { id: 18, question: "Queremos guardar una lista de correos electrónicos asegurándonos de que NO haya duplicados. ¿Qué colección usarías?", options: ["A) HashSet", "B) ArrayList", "C) Array tradicional", "D) Vector"] },
+            { id: 19, question: "Para leer el texto de un fichero carácter a carácter de forma eficiente en Java, solemos combinar `FileReader` con:", options: ["A) InputStream", "B) BufferedReader", "C) StringReader", "D) FileOutputStream"] },
+            { id: 20, question: "Para poder guardar (serializar) un Objeto entero en un fichero binario, la clase del objeto DEBE implementar la interfaz:", options: ["A) Cloneable", "B) Iterable", "C) Serializable", "D) Writable"] },
+            
+            // BLOQUE 3: JDBC Y SQL
+            { id: 21, question: "Al conectar Java con una base de datos relacional (JDBC), ¿qué interfaz representa la conexión física con el servidor?", options: ["A) DriverManager", "B) Connection", "C) Statement", "D) ResultSet"] },
+            { id: 22, question: "Para evitar inyecciones SQL y pasar parámetros de forma segura a una consulta, ¿qué objeto de JDBC debemos utilizar?", options: ["A) Statement", "B) PreparedStatement", "C) SQLSafe", "D) ResultSet"] },
+            { id: 23, question: "En JDBC, tras ejecutar un `SELECT`, los resultados devueltos por la base de datos se almacenan en un objeto de tipo:", options: ["A) ResultSet", "B) Array", "C) List", "D) TableData"] },
+            { id: 24, question: "Si nuestra tabla se llama 'Empleados', ¿cuál es la sentencia SQL correcta para recuperar TODOS los datos?", options: ["A) GET * FROM Empleados", "B) SELECT * FROM Empleados", "C) FETCH ALL Empleados", "D) SHOW Empleados"] },
+            
+            // BLOQUE 4: NEODATIS Y MONGODB
+            { id: 25, question: "En Neodatis, ¿qué método utilizamos para guardar un objeto entero en el archivo .odb sin necesidad de usar sentencias INSERT de SQL?", options: ["A) odb.save()", "B) odb.insert()", "C) odb.store()", "D) odb.write()"] },
+            { id: 26, question: "Si ejecutamos `Objects<Coche> coches = odb.getObjects(Coche.class);` en Neodatis, ¿qué estamos haciendo?", options: ["A) Borrando todos los coches.", "B) Recuperando todos los objetos de la clase Coche almacenados.", "C) Creando una tabla Coche en la base de datos.", "D) Guardando la clase Coche en disco."] },
+            { id: 27, question: "¿Qué excepción típica (`Exception`) nos lanza Java si olvidamos añadir el archivo `.jar` de una librería (como SQLite, Neodatis o MongoDB) en el Build Path?", options: ["A) NullPointerException", "B) ClassNotFoundException", "C) ArithmeticException", "D) IOException"] },
+            { id: 28, question: "En MongoDB, a diferencia de las bases de datos relacionales, la información no se guarda en filas (rows), sino en:", options: ["A) Tablas dinámicas", "B) Nodos", "C) Documentos JSON/BSON", "D) Archivos de texto plano"] },
+            { id: 29, question: "Para que el 'PojoCodecProvider' de MongoDB pueda transformar automáticamente nuestros objetos Java a documentos JSON, ¿qué requisito indispensable debe cumplir nuestra clase Java?", options: ["A) Extender de la clase Document.", "B) No tener atributos privados.", "C) Tener un constructor vacío y métodos Getters/Setters.", "D) Implementar la interfaz MongoSerializable."] },
+            { id: 30, question: "En MongoDB, al acceder a una colección específica para guardar un solo documento Java, utilizamos el método:", options: ["A) .insertOne()", "B) .add()", "C) .push()", "D) .store()"] }
+        ];
+
+        // LOGICA DE LA APLICACIÓN
+        let currentQuestionIndex = 0;
+        let studentName = "";
+        let answers = new Array(misPreguntas.length).fill(null);
+        let timeLeft = 60 * 60; // 60 minutos
+        let timerInterval;
+
+        const startBtn = document.getElementById("start-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const prevBtn = document.getElementById("prev-btn");
+        const nameInput = document.getElementById("student-name");
+
+        startBtn.addEventListener("click", () => {
+            studentName = nameInput.value.trim();
+            if(studentName === "") {
+                alert("Por favor, introduce tu nombre para comenzar.");
+                return;
+            }
+            document.getElementById("start-screen").classList.add("hidden");
+            document.getElementById("quiz-screen").classList.remove("hidden");
+            startTimer();
+            renderQuestion();
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById("timer").innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            const q = misPreguntas[currentQuestionIndex];
+            document.getElementById("question-counter").innerText = `Pregunta ${currentQuestionIndex + 1} de ${misPreguntas.length}`;
+            document.getElementById("question-text").innerText = q.question;
+            
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.className = `w-full text-left p-4 rounded border transition ${answers[currentQuestionIndex] === index ? 'bg-blue-100 border-blue-500' : 'bg-gray-50 border-gray-300 hover:bg-gray-100'}`;
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    answers[currentQuestionIndex] = index;
+                    renderQuestion(); // Re-render to show selection
+                };
+                optionsContainer.appendChild(btn);
+            });
+
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === misPreguntas.length - 1) {
+                nextBtn.innerText = "Finalizar y Descargar";
+                nextBtn.classList.replace("bg-blue-600", "bg-green-600");
+                nextBtn.classList.replace("hover:bg-blue-700", "hover:bg-green-700");
+            } else {
+                nextBtn.innerText = "Siguiente";
+                nextBtn.classList.replace("bg-green-600", "bg-blue-600");
+                nextBtn.classList.replace("hover:bg-green-700", "hover:bg-blue-700");
+            }
+        }
+
+        prevBtn.addEventListener("click", () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if (currentQuestionIndex < misPreguntas.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                if(confirm("¿Estás seguro de que deseas finalizar la prueba y descargar tus respuestas?")) {
+                    finishQuiz();
+                }
+            }
+        });
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById("quiz-screen").classList.add("hidden");
+            document.getElementById("result-screen").classList.remove("hidden");
+            
+            generateCSV();
+        }
+
+        function generateCSV() {            
+            let csvContent = "Pregunta;Respuesta_Alumno\n";
+            misPreguntas.forEach((q, index) => {
+                const answerIndex = answers[index];
+                const textAnswer = answerIndex !== null ? q.options[answerIndex] : "No respondida";
+                csvContent += `"${q.question}";"${textAnswer}"\n`;
+            });
+
+            let blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), csvContent], { type: "text/csv;charset=utf-8;" });
+            let link = document.createElement("a");
+            let cleanName = studentName.replace(/[^a-zA-Z0-9]/g, "_");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Respuestas_S38_${cleanName}.csv`;
+            link.click();
+        }
+
+        // ==========================================
+        // SEGURIDAD ANTI-COPIA
+        // ==========================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12') { e.preventDefault(); }
+            if (e.ctrlKey || e.metaKey) {
+                const teclasBloqueadas = ['c', 'v', 'x', 'p', 'u', 's', 'a'];
+                if (teclasBloqueadas.includes(e.key.toLowerCase())) {
+                    e.preventDefault();
+                }
+            }
+        });
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>

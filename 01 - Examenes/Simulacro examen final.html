@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Examen Final IFCD0052PO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Archivo: preguntas.js
+const misPreguntas = [
+  {
+    id: 1,
+    question:
+      "¿Qué palabra reservada se utiliza en Java para declarar una variable como constante, impidiendo que su valor sea modificado?",
+    options: ["A) static", "B) const", "C) final", "D) var"],
+  },
+  {
+    id: 2,
+    question:
+      "Si declaramos una variable de tipo primitivo dentro de un bloque `if`, ¿cuál es su ámbito (scope)?",
+    options: [
+      "A) Es accesible desde cualquier parte del código.",
+      "B) Es accesible únicamente dentro de ese bloque if.",
+      "C) Es accesible en todo el método de forma pública.",
+      "D) Es accesible globalmente en el sistema.",
+    ],
+  },
+  {
+    id: 3,
+    question:
+      "¿Cuál de los siguientes es el operador relacional de igualdad en Java?",
+    options: ["A) =", "B) ===", "C) !=", "D) =="],
+  },
+  {
+    id: 4,
+    question: "¿Qué es el 'Casting' en Java?",
+    options: [
+      "A) La conversión forzada de un tipo a otro compatible.",
+      "B) La eliminación de una variable en la memoria.",
+      "C) El proceso de compilación del código fuente.",
+      "D) La declaración de una nueva clase en el sistema.",
+    ],
+  },
+  {
+    id: 5,
+    question:
+      "En la Programación Orientada a Objetos, ¿cómo se representa el ESTADO de un objeto?",
+    options: [
+      "A) A través de sus métodos y funciones públicas.",
+      "B) A través de sus constructores parametrizados.",
+      "C) A través de sus atributos o variables de instancia.",
+      "D) A través de las librerías externas importadas.",
+    ],
+  },
+  {
+    id: 6,
+    question: "¿Qué significa 'sobrecargar' (overload) un método en Java?",
+    options: [
+      "A) Crear varios métodos con igual nombre y distintos parámetros.",
+      "B) Llamar al mismo método repetidas veces seguidas.",
+      "C) Modificar el código de un método heredado del padre.",
+      "D) Usar un método para procesar grandes bases de datos.",
+    ],
+  },
+  {
+    id: 7,
+    question:
+      "Si definimos un método que realiza una acción pero no necesita devolver ningún resultado, ¿qué tipo de retorno usamos en su firma?",
+    options: ["A) null", "B) void", "C) return", "D) empty"],
+  },
+  {
+    id: 8,
+    question: "¿Cuál es la principal ventaja del Encapsulamiento en Java?",
+    options: [
+      "A) Permite que todas las variables sean públicas.",
+      "B) Evita la sobrecarga temporal de la memoria RAM.",
+      "C) Facilita la herencia múltiple entre varias clases.",
+      "D) Protege los datos internos mediante modificadores.",
+    ],
+  },
+  {
+    id: 9,
+    question:
+      "En relación con el encapsulamiento, ¿para qué sirven los métodos 'Getters' y 'Setters'?",
+    options: [
+      "A) Para leer y modificar atributos privados de forma segura.",
+      "B) Para generar bucles infinitos dentro del programa.",
+      "C) Para arrancar el recolector de basura de forma manual.",
+      "D) Para establecer conexiones rápidas con servidores.",
+    ],
+  },
+  {
+    id: 10,
+    question:
+      "¿Qué regla de sintaxis es obligatoria al crear un método Constructor?",
+    options: [
+      "A) Debe devolver siempre un tipo de dato String.",
+      "B) Debe declararse siempre con acceso protegido.",
+      "C) Debe llamarse como la clase y no tener tipo de retorno.",
+      "D) Debe incluir siempre la palabra reservada static.",
+    ],
+  },
+  {
+    id: 11,
+    question:
+      "¿Para qué se utiliza la palabra reservada `this` dentro de una clase?",
+    options: [
+      "A) Para importar clases desde otros paquetes externos.",
+      "B) Para interrumpir forzosamente un bucle en ejecución.",
+      "C) Para inicializar todos los valores de un arreglo.",
+      "D) Para hacer referencia a la instancia actual del objeto.",
+    ],
+  },
+  {
+    id: 12,
+    question:
+      "¿Cuál es la función del 'Garbage Collector' (Recolector de Basura) de la JVM?",
+    options: [
+      "A) Optimizar el código fuente para una carga rápida.",
+      "B) Liberar memoria de aquellos objetos que ya no se usan.",
+      "C) Cerrar la base de datos cuando ocurre un error crítico.",
+      "D) Eliminar los archivos temporales creados en el disco.",
+    ],
+  },
+  {
+    id: 13,
+    question:
+      "Si un objeto no ha sido instanciado con `new` y no apunta a ningún espacio en memoria, su valor por defecto es:",
+    options: ["A) null", "B) 0", "C) void", "D) false"],
+  },
+  {
+    id: 14,
+    question:
+      "¿Cuál es la clase Wrapper (Envoltorio) correspondiente al tipo primitivo `int`?",
+    options: ["A) Int", "B) Double", "C) Integer", "D) Number"],
+  },
+  {
+    id: 15,
+    question: "¿Cuál es la sintaxis correcta del operador ternario en Java?",
+    options: [
+      "A) if condicion then valor1 else valor2",
+      "B) condicion => valor1 : valor2",
+      "C) condicion : valor_si_true ? valor_si_false",
+      "D) condicion ? valor_si_true : valor_si_false",
+    ],
+  },
+  {
+    id: 16,
+    question:
+      "En las estructuras de control lógicas, ¿cuál es el propósito de `else if`?",
+    options: [
+      "A) Detener el flujo del programa inmediatamente.",
+      "B) Encadenar múltiples condiciones excluyentes.",
+      "C) Comprobar si una variable está completamente vacía.",
+      "D) Generar repeticiones hasta que se cumpla la regla.",
+    ],
+  },
+  {
+    id: 17,
+    question:
+      "A partir de versiones modernas de Java, ¿qué tipo de variable compleja permite evaluar un bloque `switch`, además de enteros o caracteres?",
+    options: ["A) ArrayList", "B) Boolean", "C) String", "D) File"],
+  },
+  {
+    id: 18,
+    question:
+      "Si necesitas recorrer un Array de principio a fin, elemento por elemento, la forma más limpia y recomendada es:",
+    options: [
+      "A) Usar un bucle do-while iterativo.",
+      "B) Usar una estructura lógica tipo switch.",
+      "C) Usar sentencias lógicas encadenadas.",
+      "D) Usar un bucle for-each (for extendido).",
+    ],
+  },
+  {
+    id: 19,
+    question:
+      "¿Qué estructura de repetición evalúa la condición al FINAL de la iteración, garantizando que el bloque de código se ejecute como mínimo una vez?",
+    options: ["A) for", "B) while", "C) do-while", "D) if-else"],
+  },
+  {
+    id: 20,
+    question:
+      "Si queremos interrumpir y salir por completo de la ejecución de un bucle antes de que termine, usamos la sentencia:",
+    options: ["A) break", "B) continue", "C) stop", "D) exit"],
+  },
+  {
+    id: 21,
+    question:
+      "En la gestión de excepciones, ¿qué bloque de código se ejecuta SIEMPRE al final, independientemente de si ocurrió o no un error?",
+    options: ["A) catch", "B) try", "C) throws", "D) finally"],
+  },
+  {
+    id: 22,
+    question:
+      "En la jerarquía de errores de Java, ¿cuál es la clase padre (superclase) absoluta de la que derivan tanto `Error` como `Exception`?",
+    options: [
+      "A) RuntimeException",
+      "B) Object",
+      "C) Throwable",
+      "D) Catchable",
+    ],
+  },
+  {
+    id: 23,
+    question:
+      "¿Qué indica la palabra reservada `throws` en la firma de un método (ej. `public void leer() throws IOException`)?",
+    options: [
+      "A) Que el método generará un fallo irrecuperable.",
+      "B) Que el método avisa de una posible excepción.",
+      "C) Que el método silenciará todos los errores.",
+      "D) Que el método captura el error internamente.",
+    ],
+  },
+  {
+    id: 24,
+    question:
+      "Durante la depuración de código (Debug) en Eclipse, ¿para qué sirve establecer un 'Breakpoint' (Punto de interrupción)?",
+    options: [
+      "A) Para pausar la ejecución y poder ver las variables.",
+      "B) Para acelerar el tiempo de compilación del proyecto.",
+      "C) Para eliminar la línea de código seleccionada.",
+      "D) Para indicar el final definitivo del bloque de texto.",
+    ],
+  },
+  {
+    id: 25,
+    question:
+      "En las relaciones entre clases, ¿qué caracteriza a una 'Composición' frente a una Asociación simple?",
+    options: [
+      "A) No existe ninguna diferencia técnica entre ambas.",
+      "B) Es una estructura que permite modificar atributos ajenos.",
+      "C) Es un patrón que exige el uso obligatorio de interfaces.",
+      "D) Es una relación fuerte donde las partes dependen del todo.",
+    ],
+  },
+  {
+    id: 26,
+    question:
+      "¿Qué palabra reservada permite que una clase herede los atributos y métodos de otra clase en Java?",
+    options: ["A) inherits", "B) extends", "C) include", "D) implements"],
+  },
+  {
+    id: 27,
+    question:
+      "En una clase 'Hija' que hereda de una clase 'Padre', ¿para qué se utiliza la palabra `super`?",
+    options: [
+      "A) Para invocar métodos o constructores de la clase padre.",
+      "B) Para asignar permisos de administrador al objeto.",
+      "C) Para sobrescribir el comportamiento de un método.",
+      "D) Para proteger las variables de lectura no autorizada.",
+    ],
+  },
+  {
+    id: 28,
+    question:
+      "¿Qué es el 'Polimorfismo' en la Programación Orientada a Objetos?",
+    options: [
+      "A) Agrupar miles de tipos de datos en la memoria.",
+      "B) Limitar el acceso solo a métodos de tipo privado.",
+      "C) Tratar objetos de clases hijas como si fueran su padre.",
+      "D) Generar múltiples constructores dentro de una clase.",
+    ],
+  },
+  {
+    id: 29,
+    question:
+      "Si vemos la anotación `@Override` justo encima de un método, significa que:",
+    options: [
+      "A) El bloque de código contiene un error de sintaxis.",
+      "B) El método está reemplazando a un método heredado.",
+      "C) El método es abstracto y carece de funcionalidad.",
+      "D) El método se ejecutará en un hilo independiente.",
+    ],
+  },
+  {
+    id: 30,
+    question:
+      "¿Qué diferencia principal hay entre una Clase Abstracta y una Interfaz?",
+    options: [
+      "A) Las interfaces soportan variables locales y las abstractas no.",
+      "B) Las clases abstractas no tienen métodos y las interfaces sí.",
+      "C) No existe ninguna diferencia en las versiones modernas.",
+      "D) Se pueden implementar varias interfaces pero heredar de una clase.",
+    ],
+  },
+  {
+    id: 31,
+    question:
+      "¿Cómo se declara correctamente una matriz (Array bidimensional) de números enteros en Java?",
+    options: [
+      "A) int[][] matriz = new int[5][5];",
+      "B) int matriz = new int(5,5);",
+      "C) int[5,5] matriz;",
+      "D) Array<int> matriz = new Array(5x5);",
+    ],
+  },
+  {
+    id: 32,
+    question:
+      "Al aplicar un algoritmo de ordenación básico sobre un Array numérico desordenado, el resultado esperado es:",
+    options: [
+      "A) Que se eliminen todos los valores numéricos repetidos.",
+      "B) Que se invierta por completo el orden original de los datos insertados.",
+      "C) Que los elementos queden organizados bajo un criterio (ej. menor a mayor).",
+      "D) Que el Array aumente su tamaño para acomodar la nueva organización.",
+    ],
+  },
+  {
+    id: 33,
+    question: "La clase `String` en Java es 'inmutable', lo que significa que:",
+    options: [
+      "A) Sus funciones internas nunca generan excepciones.",
+      "B) Su contenido original en memoria no puede modificarse.",
+      "C) Únicamente soporta la inserción de números enteros.",
+      "D) No se permite imprimir su valor a través de la consola.",
+    ],
+  },
+  {
+    id: 34,
+    question:
+      "Si aplicas el método `split('-')` a la cadena 'Juan-Perez-Lopez', ¿qué obtienes como resultado?",
+    options: [
+      "A) Un error, ya que split() solo admite espacios.",
+      "B) La cadena simple 'Juan Perez Lopez'.",
+      "C) El número entero correspondiente a 3.",
+      "D) Un Array de Strings con tres elementos separados.",
+    ],
+  },
+  {
+    id: 35,
+    question:
+      "¿Cuál es el propósito principal de usar Genéricos (la notación `<T>`) en colecciones como ArrayList?",
+    options: [
+      "A) Aportar seguridad obligando a guardar un tipo específico.",
+      "B) Agilizar el acceso a bases de datos relacionales.",
+      "C) Acelerar el rendimiento de los bucles iterativos.",
+      "D) Generar números aleatorios de forma controlada.",
+    ],
+  },
+  {
+    id: 36,
+    question:
+      "Dentro de la API de Colecciones, ¿cuál es la interfaz raíz (Top-Level) de la que derivan List, Set y Queue?",
+    options: ["A) Map", "B) ArrayList", "C) Collection", "D) Iterator"],
+  },
+  {
+    id: 37,
+    question:
+      "¿Cuál es la principal diferencia entre un `ArrayList` y un Array tradicional (`[]`)?",
+    options: [
+      "A) El ArrayList solo admite números enteros.",
+      "B) El ArrayList crece dinámicamente al añadir elementos.",
+      "C) El Array tradicional es más lento de recorrer.",
+      "D) El ArrayList prohíbe el borrado de elementos.",
+    ],
+  },
+  {
+    id: 38,
+    question:
+      "Si necesitas almacenar elementos garantizando que NO HAYA DUPLICADOS, la implementación más adecuada es:",
+    options: ["A) LinkedList", "B) ArrayList", "C) Vector", "D) HashSet"],
+  },
+  {
+    id: 39,
+    question:
+      "La interfaz `Map` almacena la información mediante un sistema de:",
+    options: [
+      "A) Pares Clave/Valor (Key/Value).",
+      "B) Índices puramente secuenciales.",
+      "C) Nodos enlazados en un círculo.",
+      "D) Archivos de texto sin formato.",
+    ],
+  },
+  {
+    id: 40,
+    question:
+      "Al trabajar con un `HashMap`, ¿qué devuelve el método `keySet()`?",
+    options: [
+      "A) El total de elementos insertados en el mapa.",
+      "B) Todos los valores ignorando sus claves de acceso.",
+      "C) Un conjunto (Set) con todas las claves registradas.",
+      "D) Un fallo en caso de que el mapa se encuentre vacío.",
+    ],
+  },
+  {
+    id: 41,
+    question:
+      "En la gestión de Entrada/Salida (I/O) en Java, ¿qué es un 'Stream'?",
+    options: [
+      "A) Un tipo de variable estática global.",
+      "B) Un flujo secuencial de lectura o escritura.",
+      "C) Un cifrado estándar de base de datos.",
+      "D) Una utilidad gráfica propia de Eclipse.",
+    ],
+  },
+  {
+    id: 42,
+    question:
+      "¿Cuál es la función específica de la clase `File` del paquete `java.io`?",
+    options: [
+      "A) Extraer directamente el contenido de los archivos.",
+      "B) Transmitir flujos binarios a través de internet.",
+      "C) Comprimir directorios completos en formato ZIP.",
+      "D) Representar rutas y verificar si los archivos existen.",
+    ],
+  },
+  {
+    id: 43,
+    question:
+      "Para leer caracteres de un archivo de texto con alta eficiencia, reduciendo las llamadas al disco, se suele envolver el `FileReader` en un:",
+    options: [
+      "A) BufferedReader",
+      "B) ObjectInputStream",
+      "C) DataOutputStream",
+      "D) StringTokenizer",
+    ],
+  },
+  {
+    id: 44,
+    question:
+      "Si necesitamos guardar el estado de un objeto Java directamente en un archivo binario, el objeto debe implementar la interfaz:",
+    options: [
+      "A) Comparable",
+      "B) Cloneable",
+      "C) Serializable",
+      "D) Writable",
+    ],
+  },
+  {
+    id: 45,
+    question:
+      "En la Programación Dirigida por Eventos (ej. Interfaces Gráficas), ¿qué papel cumple un 'Listener' (Oyente)?",
+    options: [
+      "A) Dibuja los componentes visuales en la pantalla.",
+      "B) Espera una acción del usuario para ejecutar un código.",
+      "C) Registra el tiempo de carga total del sistema operativo.",
+      "D) Traduce el lenguaje Java a un entorno de máquina.",
+    ],
+  },
+  {
+    id: 46,
+    question:
+      "En una Base de Datos Relacional, ¿qué nombre recibe la estructura bidimensional compuesta por columnas (campos) y filas (registros)?",
+    options: ["A) Grafo", "B) Array", "C) JSON", "D) Tabla"],
+  },
+  {
+    id: 47,
+    question:
+      "Teniendo en cuenta el estándar, ¿a qué subgrupo del lenguaje SQL pertenecen las sentencias SELECT, INSERT, UPDATE y DELETE?",
+    options: [
+      "A) DDL (Data Definition Language)",
+      "B) DCL (Data Control Language)",
+      "C) DML (Data Manipulation Language)",
+      "D) TCL (Transaction Control Language)",
+    ],
+  },
+  {
+    id: 48,
+    question:
+      "En la arquitectura JDBC para conectar Java a una Base de Datos, ¿cuál es la función principal del 'Driver'?",
+    options: [
+      "A) Actuar como intermediario entre Java y la base de datos.",
+      "B) Redactar consultas SQL automáticamente en el código.",
+      "C) Modificar la interfaz gráfica para la visualización.",
+      "D) Configurar los puertos del servidor antes de iniciar.",
+    ],
+  },
+  {
+    id: 49,
+    question:
+      "Al ejecutar una consulta 'SELECT' mediante JDBC, el conjunto de filas devuelto por la base de datos se almacena en un objeto Java de tipo:",
+    options: ["A) String[][]", "B) ResultSet", "C) Statement", "D) SQLTable"],
+  },
+  {
+    id: 50,
+    question:
+      "Frente a bases de objetos puros como Neodatis, el mercado actual demanda bases NoSQL como MongoDB, que usan el formato estructurado:",
+    options: ["A) XML", "B) CSV", "C) HTML", "D) JSON"],
+  },
+];
+
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+      body {
+        font-family: 'Inter', sans-serif; 
+        /* Evitar selección de texto */
+        -webkit-user-select: none; /* Chrome, Safari, Opera */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Estándar */
+      }
+      .option {
+        background-color: #e5e7eb;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        border: 2px solid transparent;
+      }
+      .option:hover {
+        background-color: #d1d5db;
+        transform: translateY(-2px);
+      }
+      /* Estilo para la opción que el alumno ha seleccionado */
+      .option.selected {
+        background-color: #dbeafe;
+        border: 2px solid #3b82f6;
+      }
+    </style>
+  </head>
+  <body oncontextmenu="return false;" class="bg-gray-100 text-gray-800 text-sm md:text-[16px] p-2 md:p-8 flex items-center justify-center min-h-screen">
+    <div
+      class="container bg-white rounded-xl shadow-lg p-4 md:p-10 w-full max-w-3xl"
+    >
+      <h1 class="text-3xl font-bold text-center mb-6">Simulacro Examen Final</h1>
+
+      <div id="login-screen" class="mb-6">
+        <label class="block text-lg font-medium text-gray-700 mb-2"
+          >Nombre y Apellidos:</label
+        >
+        <input
+          type="text"
+          id="student-name"
+          class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm mb-4 text-lg"
+          placeholder="Ej. Ana Lopez (sin tildes)"
+        />
+        <button
+          id="start-btn"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg"
+        >
+          Comenzar Examen
+        </button>
+      </div>
+
+      <div id="quiz-container" class="hidden"></div>
+
+      <div id="nav-buttons" class="flex justify-between mt-6 hidden">
+        <button
+          id="prev-btn"
+          class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg disabled:opacity-50"
+        >
+          Anterior
+        </button>
+        <span
+          id="progress"
+          class="self-center font-medium text-gray-500"
+        ></span>
+        <button
+          id="next-btn"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg"
+        >
+          Siguiente
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let currentQuestionIndex = 0;
+      let finalQuestions = [];
+      let studentAnswers = {}; // Guardará { id_pregunta: "Respuesta elegida" }
+      let studentName = "";
+
+      const loginScreen = document.getElementById("login-screen");
+      const quizContainer = document.getElementById("quiz-container");
+      const navButtons = document.getElementById("nav-buttons");
+      const prevBtn = document.getElementById("prev-btn");
+      const nextBtn = document.getElementById("next-btn");
+      const startBtn = document.getElementById("start-btn");
+      const progressText = document.getElementById("progress");
+
+      // Empezar el examen
+      startBtn.addEventListener("click", () => {
+        studentName = document.getElementById("student-name").value.trim();
+        if (!studentName) {
+          alert("Debes introducir tu nombre para hacer el examen.");
+          return;
+        }
+
+        // misPreguntas viene del archivo preguntas.js
+        if (typeof misPreguntas === "undefined" || misPreguntas.length === 0) {
+          alert("Error: No se ha cargado el archivo de preguntas.");
+          return;
+        }
+
+        finalQuestions = misPreguntas; // Si quieres mezclarlas, llama a tu función shuffleArray(misPreguntas) aquí
+        loginScreen.classList.add("hidden");
+        quizContainer.classList.remove("hidden");
+        navButtons.classList.remove("hidden");
+        renderQuestion();
+      });
+
+      function renderQuestion() {
+        quizContainer.innerHTML = "";
+
+        // Si hemos llegado al final
+        if (currentQuestionIndex >= finalQuestions.length) {
+          showFinalScreen();
+          return;
+        }
+
+        const q = finalQuestions[currentQuestionIndex];
+        progressText.textContent = `Pregunta ${currentQuestionIndex + 1} de ${finalQuestions.length}`;
+
+        const card = document.createElement("div");
+
+        const questionTitle = document.createElement("div");
+        questionTitle.className = "text-lg font-semibold mb-4 text-gray-900";
+        questionTitle.textContent = `${currentQuestionIndex + 1}. ${q.question}`;
+        card.appendChild(questionTitle);
+
+        // Renderizar opciones
+        q.options.forEach((optionText) => {
+          const option = document.createElement("div");
+          option.className = "option";
+          option.textContent = optionText;
+
+          // Si ya la había respondido antes, la marcamos
+          if (studentAnswers[q.id] === optionText) {
+            option.classList.add("selected");
+          }
+
+          option.addEventListener("click", () => {
+            // Quitar selección a las demás
+            const allOptions = card.querySelectorAll(".option");
+            allOptions.forEach((opt) => opt.classList.remove("selected"));
+
+            // Seleccionar esta y guardar en memoria
+            option.classList.add("selected");
+            studentAnswers[q.id] = optionText;
+          });
+
+          card.appendChild(option);
+        });
+
+        quizContainer.appendChild(card);
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.textContent =
+          currentQuestionIndex === finalQuestions.length - 1
+            ? "Terminar y Descargar"
+            : "Siguiente";
+      }
+
+      function showFinalScreen() {
+        navButtons.classList.add("hidden");
+        quizContainer.innerHTML = `
+                <div class="text-center py-8">
+                    <h2 class="text-3xl font-bold mb-4 text-green-600">¡Examen Completado!</h2>
+                    <p class="text-lg mb-8 text-gray-600">Has respondido ${Object.keys(studentAnswers).length} de ${finalQuestions.length} preguntas.</p>
+                    <button id="download-btn" class="bg-green-600 hover:bg-green-700 text-white text-xl font-bold py-4 px-8 rounded-lg shadow-lg">
+                        📥 Descargar Respuestas
+                    </button>
+                    <p class="mt-4 text-sm text-gray-500">Sube el archivo descargado al aula virtual.</p>
+                </div>
+            `;
+
+        document
+          .getElementById("download-btn")
+          .addEventListener("click", generateCSV);
+      }
+
+      function generateCSV() {
+        let csvContent = "ID Pregunta,Pregunta,Respuesta Seleccionada\n";
+
+        finalQuestions.forEach((q) => {
+          // Si la dejó en blanco, ponemos "Sin responder"
+          let ans = studentAnswers[q.id]
+            ? studentAnswers[q.id].replace(/,/g, "")
+            : "Sin responder";
+          let cleanQuestion = q.question.replace(/,/g, ""); // Quitamos comas para no romper el CSV
+          csvContent += `${q.id},${cleanQuestion},${ans}\n`;
+        });
+
+        let blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
+        let link = document.createElement("a");
+        let cleanName = studentName.replace(/[^a-zA-Z0-9]/g, "_");
+        link.href = URL.createObjectURL(blob);
+        link.download = `Examen_${cleanName}.csv`;
+        link.click();
+      }
+
+      prevBtn.addEventListener("click", () => {
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          renderQuestion();
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        currentQuestionIndex++;
+        renderQuestion();
+      });
+      // ==========================================
+        // 3. SEGURIDAD ANTI-COPIA
+        // ==========================================
+        document.addEventListener('keydown', function(e) {
+            // Bloquear F12 (Herramientas de desarrollador)
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Bloquear atajos con Ctrl o Cmd (Mac)
+            if (e.ctrlKey || e.metaKey) {
+                const teclasBloqueadas = ['c', 'v', 'x', 'p', 'u', 's', 'a']; // Copiar, Pegar, Cortar, Imprimir, Ver código, Guardar, Seleccionar todo
+                if (teclasBloqueadas.includes(e.key.toLowerCase())) {
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
+  </body>
+</html>

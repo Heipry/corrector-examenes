@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termómetro de Java - Nuevo Simulacro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .noselect {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 noselect">
+    <div id="app" class="bg-white rounded-xl shadow-lg p-8 w-full max-w-3xl">
+        
+        <div id="start-screen" class="text-center">
+            <h1 class="text-3xl font-bold text-blue-800 mb-4">Simulacro Final de Java (Modelo B)</h1>
+            <p class="text-gray-600 mb-6">Esta prueba consta de 30 preguntas que abarcan desde Fundamentos de Objetos hasta JDBC, Neodatis y MongoDB. Al finalizar, se descargará automáticamente un archivo CSV con tus respuestas para la evaluación del tutor.</p>
+            <input type="text" id="student-name" placeholder="Escribe tu Nombre y Apellidos" class="w-full border-2 border-gray-300 rounded p-3 mb-4 focus:outline-none focus:border-blue-500 text-lg">
+            <button onclick="startTest()" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-xl font-bold hover:bg-blue-700 transition">Comenzar Test</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <span id="question-counter" class="text-gray-500 font-semibold"></span>
+                <span id="timer" class="text-red-500 font-bold text-xl">60:00</span>
+            </div>
+            <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-6"></h2>
+            <div id="options-container" class="space-y-3"></div>
+            <div class="mt-8 flex justify-between">
+                <button id="prev-btn" onclick="prevQuestion()" class="bg-gray-300 text-gray-700 px-6 py-2 rounded font-bold hover:bg-gray-400 hidden">Anterior</button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700 ml-auto">Siguiente</button>
+            </div>
+        </div>
+
+        <div id="end-screen" class="hidden text-center">
+            <h2 class="text-3xl font-bold text-green-600 mb-4">¡Prueba Finalizada!</h2>
+            <p class="text-gray-700 mb-6 text-lg">Tus respuestas han sido procesadas. El archivo se ha descargado automáticamente. Envíalo a tu profesor a través de la plataforma virtual.</p>
+            <p class="text-sm text-gray-500">Si la descarga no ha comenzado, haz clic abajo:</p>
+            <button onclick="generateCSV()" class="mt-4 bg-green-600 text-white px-6 py-2 rounded font-bold hover:bg-green-700">Forzar Descarga CSV</button>
+        </div>
+    </div>
+
+    <script>
+        const misPreguntas = [{"pregunta": "¿Qué es un algoritmo en programación?", "opciones": ["A) Un tipo de variable que almacena texto.", "B) Un conjunto ordenado de operaciones sistemáticas para resolver un problema.", "C) Una parte del hardware del servidor.", "D) Una excepción que detiene el programa."]}, {"pregunta": "¿Cómo se define un comentario de múltiples líneas en Java?", "opciones": ["A) // comentario", "B) <!-- comentario -->", "C) /* comentario */", "D) # comentario"]}, {"pregunta": "¿Cuál de los siguientes NO es un tipo de dato primitivo en Java?", "opciones": ["A) int", "B) boolean", "C) String", "D) double"]}, {"pregunta": "¿Qué modificador de acceso permite que un atributo sea visible solo dentro de su propia clase?", "opciones": ["A) public", "B) protected", "C) private", "D) default"]}, {"pregunta": "¿Qué palabra reservada se utiliza para hacer referencia al objeto actual dentro de un método de instancia?", "opciones": ["A) super", "B) new", "C) this", "D) self"]}, {"pregunta": "¿Qué ocurre en Java cuando un objeto deja de estar referenciado por alguna variable?", "opciones": ["A) Queda bloqueado en un archivo .jar.", "B) El recolector de basura (Garbage Collector) lo elimina de la memoria.", "C) Lanza un NullPointerException.", "D) Se guarda automáticamente en la base de datos."]}, {"pregunta": "¿Para qué se utiliza la cláusula `throws` en la declaración de un método?", "opciones": ["A) Para lanzar un error de compilación intencionadamente.", "B) Para indicar que el método puede lanzar una o más excepciones al código que lo llama.", "C) Para capturar un error de forma silenciosa.", "D) Para crear nuevos objetos en memoria."]}, {"pregunta": "¿Qué diferencia principal hay entre una interfaz y una clase abstracta en Java?", "opciones": ["A) Las clases abstractas no pueden tener métodos, las interfaces sí.", "B) Una clase puede implementar múltiples interfaces, pero solo puede heredar de una clase abstracta.", "C) Las interfaces usan la palabra 'extends' para aplicarse a una clase.", "D) No hay ninguna diferencia funcional, son sinónimos."]}, {"pregunta": "¿Qué método de la clase `String` devuelve la longitud de la cadena de texto?", "opciones": ["A) size()", "B) getSize()", "C) length()", "D) count()"]}, {"pregunta": "En la jerarquía de colecciones, ¿cuál de las siguientes interfaces NO permite almacenar elementos duplicados?", "opciones": ["A) List", "B) Set", "C) Queue", "D) Array"]}, {"pregunta": "¿Qué implementación de la interfaz `Map` usarías para almacenar pares clave-valor sin importar el orden interno?", "opciones": ["A) ArrayList", "B) LinkedList", "C) HashMap", "D) TreeMap"]}, {"pregunta": "¿Qué clase de flujo (Stream) se utiliza preferentemente para leer archivos de texto, carácter a carácter?", "opciones": ["A) FileInputStream", "B) FileReader", "C) ObjectOutputStream", "D) ByteArrayInputStream"]}, {"pregunta": "¿Qué interfaz de JDBC representa una instrucción SQL precompilada que acepta parámetros de forma segura?", "opciones": ["A) Statement", "B) PreparedStatement", "C) ResultSet", "D) Connection"]}, {"pregunta": "En Neodatis, ¿qué interfaz utilizamos típicamente para estructurar una consulta de búsqueda de objetos?", "opciones": ["A) SQLSelect", "B) MongoCursor", "C) IQuery", "D) Statement"]}, {"pregunta": "En MongoDB, ¿qué formato estructurado se usa para almacenar los datos en los documentos de sus colecciones?", "opciones": ["A) Tablas SQL", "B) Archivos XML puros", "C) Archivos CSV", "D) Documentos tipo JSON/BSON"]}, {"pregunta": "¿Qué palabra reservada se utiliza en la firma de una clase para evitar que pueda ser heredada (subclasificada) por otra?", "opciones": ["A) static", "B) private", "C) final", "D) abstract"]}, {"pregunta": "¿Qué operador lógico de Java se usa para comprobar si un objeto concreto es una instancia de una clase específica?", "opciones": ["A) extends", "B) implements", "C) typeof", "D) instanceof"]}, {"pregunta": "Si deseamos convertir un texto ('123') a un número entero primitivo en Java, ¿qué método debemos emplear?", "opciones": ["A) Integer.parseInt('123')", "B) Math.toInt('123')", "C) String.toInteger('123')", "D) Cast directo: (int) '123'"]}, {"pregunta": "¿Cuál es el propósito del bloque `catch` dentro del manejo de errores?", "opciones": ["A) Cerrar siempre la conexión a la base de datos.", "B) Capturar y tratar una excepción que ha sido lanzada en el bloque try anterior.", "C) Optimizar el rendimiento del recolector de basura.", "D) Lanzar forzosamente un nuevo error."]}, {"pregunta": "¿Qué concepto central de la Programación Orientada a Objetos permite que diferentes clases respondan a la llamada del mismo método de formas distintas?", "opciones": ["A) Encapsulamiento", "B) Polimorfismo", "C) Sobrecarga de operadores", "D) Serialización"]}, {"pregunta": "En el ciclo de vida de un objeto, ¿quién se encarga de ejecutar su constructor?", "opciones": ["A) El operador 'new' en el momento exacto de la instanciación.", "B) El compilador al inicio del programa.", "C) El método main cuando termina de ejecutarse.", "D) La clase File al cargar datos."]}, {"pregunta": "¿Cuál es la 'superclase' raíz de la cual heredan absolutamente todas las demás clases en Java, ya sea directa o indirectamente?", "opciones": ["A) BaseClass", "B) System", "C) Object", "D) Root"]}, {"pregunta": "¿Para qué se utiliza comúnmente la clase `StringTokenizer` en Java?", "opciones": ["A) Para cifrar contraseñas en la base de datos.", "B) Para dividir una cadena larga en subcadenas (tokens) en función de un delimitador específico.", "C) Para unir múltiples cadenas en una sola rápidamente.", "D) Para leer datos desde la consola del usuario."]}, {"pregunta": "Si queremos recorrer una colección de elementos secuencialmente sin usar índices numéricos, la forma más estándar es mediante un objeto de tipo:", "opciones": ["A) ForLoop", "B) Scanner", "C) Iterator", "D) ArrayList"]}, {"pregunta": "¿Qué método de la interfaz `Connection` en JDBC se invoca para crear un objeto `Statement` que envíe consultas SQL simples a la BD?", "opciones": ["A) prepareSQL()", "B) createStatement()", "C) newQuery()", "D) execute()"]}, {"pregunta": "En el estándar JDBC, ¿qué entendemos por 'Driver'?", "opciones": ["A) Un dispositivo físico conectado al USB.", "B) El método principal que arranca la aplicación.", "C) Un componente de software específico (librería) que traduce las peticiones Java para que un motor de BD concreto las entienda.", "D) Un administrador de usuarios de la base de datos."]}, {"pregunta": "En las bases de datos NoSQL orientadas a documentos como MongoDB, ¿cómo se denominan las agrupaciones equivalentes a las 'tablas' relacionales?", "opciones": ["A) Filas", "B) Esquemas", "C) Clústeres", "D) Colecciones"]}, {"pregunta": "¿Qué método oficial de la API sincrónica de MongoDB en Java usamos para insertar múltiples documentos a la vez en una colección?", "opciones": ["A) addAll()", "B) insertMany()", "C) saveList()", "D) batchInsert()"]}, {"pregunta": "Según la directriz tecnológica del curso de programación en Java que estamos impartiendo, ¿qué IDE deben utilizar los alumnos para todos sus proyectos?", "opciones": ["A) IntelliJ IDEA", "B) NetBeans 12", "C) Eclipse 2025.12", "D) Visual Studio Code"]}, {"pregunta": "En Neodatis, cuando ejecutamos una consulta `odb.getObjects(...)` para obtener registros, ¿qué tipo de colección especial nos devuelve la base de datos?", "opciones": ["A) Objects<T>", "B) ResultSet", "C) Document", "D) ArrayPrimitive"]}];
+        
+        let currentQuestion = 0;
+        let answers = new Array(misPreguntas.length).fill(null);
+        let studentName = "";
+        let timeLeft = 3600; // 60 minutos
+        let timerInterval;
+
+        function startTest() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            if(nameInput === "") {
+                alert("Por favor, introduce tu nombre antes de comenzar.");
+                return;
+            }
+            studentName = nameInput;
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+                if(timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = misPreguntas[currentQuestion];
+            document.getElementById('question-counter').innerText = `Pregunta ${currentQuestion + 1} de ${misPreguntas.length}`;
+            document.getElementById('question-text').innerText = q.pregunta;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.opciones.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded border-2 transition font-medium ${answers[currentQuestion] === index ? 'bg-blue-100 border-blue-500 text-blue-800' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}`;
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('prev-btn').classList.toggle('hidden', currentQuestion === 0);
+            const nextBtn = document.getElementById('next-btn');
+            if(currentQuestion === misPreguntas.length - 1) {
+                nextBtn.innerText = "Finalizar Test";
+                nextBtn.classList.replace('bg-blue-600', 'bg-green-600');
+                nextBtn.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+            } else {
+                nextBtn.innerText = "Siguiente";
+                nextBtn.classList.replace('bg-green-600', 'bg-blue-600');
+                nextBtn.classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+            }
+        }
+
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            loadQuestion();
+        }
+
+        function prevQuestion() {
+            if(currentQuestion > 0) { currentQuestion--; loadQuestion(); }
+        }
+
+        function nextQuestion() {
+            if(currentQuestion < misPreguntas.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                if(confirm("¿Estás seguro de que deseas finalizar el test? No podrás cambiar las respuestas.")) {
+                    clearInterval(timerInterval);
+                    finishTest();
+                }
+            }
+        }
+
+        function finishTest() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('end-screen').classList.remove('hidden');
+            generateCSV();
+        }
+
+        function generateCSV() {            
+            let csvContent = "Pregunta;Respuesta_Alumno\n";
+            misPreguntas.forEach((q, index) => {
+                const answerIndex = answers[index];
+                const textAnswer = answerIndex !== null ? q.opciones[answerIndex] : "No respondida";
+                csvContent += `"${q.pregunta}";"${textAnswer}"\n`;
+            });
+
+            let blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), csvContent], { type: "text/csv;charset=utf-8;" });
+            let link = document.createElement("a");
+            let cleanName = studentName.replace(/[^a-zA-Z0-9]/g, "_");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Respuestas_SimulacroB_${cleanName}.csv`;
+            link.click();
+        }
+        
+        // Anti-copia
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12') { e.preventDefault(); }
+            if (e.ctrlKey || e.metaKey) {
+                const teclasBloqueadas = ['c', 'v', 'x', 'p', 'u', 's', 'a'];
+                if (teclasBloqueadas.includes(e.key.toLowerCase())) { e.preventDefault(); }
+            }
+        });
+        document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+</html>

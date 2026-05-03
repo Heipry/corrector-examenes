@@ -1,0 +1,51 @@
+ID Pregunta,Pregunta,Respuesta Correcta
+1,"¿Qué palabra reservada se utiliza en Java para declarar una variable como constante, impidiendo que su valor sea modificado?",C) final
+2,"Si declaramos una variable de tipo primitivo dentro de un bloque `if`, ¿cuál es su ámbito (scope)?",B) Es accesible únicamente dentro de ese bloque if.
+3,¿Cuál de los siguientes es el operador relacional de igualdad en Java?,D) ==
+4,¿Qué es el 'Casting' en Java?,A) La conversión forzada de un tipo a otro compatible.
+5,"En la Programación Orientada a Objetos, ¿cómo se representa el ESTADO de un objeto?",C) A través de sus atributos o variables de instancia.
+6,¿Qué significa 'sobrecargar' (overload) un método en Java?,A) Crear varios métodos con igual nombre y distintos parámetros.
+7,"Si definimos un método que realiza una acción pero no necesita devolver ningún resultado, ¿qué tipo de retorno usamos en su firma?",B) void
+8,¿Cuál es la principal ventaja del Encapsulamiento en Java?,D) Protege los datos internos mediante modificadores.
+9,"En relación con el encapsulamiento, ¿para qué sirven los métodos 'Getters' y 'Setters'?",A) Para leer y modificar atributos privados de forma segura.
+10,¿Qué regla de sintaxis es obligatoria al crear un método Constructor?,C) Debe llamarse como la clase y no tener tipo de retorno.
+11,¿Para qué se utiliza la palabra reservada `this` dentro de una clase?,D) Para hacer referencia a la instancia actual del objeto.
+12,¿Cuál es la función del 'Garbage Collector' (Recolector de Basura) de la JVM?,B) Liberar memoria de aquellos objetos que ya no se usan.
+13,"Si un objeto no ha sido instanciado con `new` y no apunta a ningún espacio en memoria, su valor por defecto es:",A) null
+14,¿Cuál es la clase Wrapper (Envoltorio) correspondiente al tipo primitivo `int`?,C) Integer
+15,¿Cuál es la sintaxis correcta del operador ternario en Java?,D) condicion ? valor_si_true : valor_si_false
+16,"En las estructuras de control lógicas, ¿cuál es el propósito de `else if`?",B) Encadenar múltiples condiciones excluyentes.
+17,"A partir de versiones modernas de Java, ¿qué tipo de variable compleja permite evaluar un bloque `switch`, además de enteros o caracteres?",C) String
+18,"Si necesitas recorrer un Array de principio a fin, elemento por elemento, la forma más limpia y recomendada es:",D) Usar un bucle for-each (for extendido).
+19,"¿Qué estructura de repetición evalúa la condición al FINAL de la iteración, garantizando que el bloque de código se ejecute como mínimo una vez?",C) do-while
+20,"Si queremos interrumpir y salir por completo de la ejecución de un bucle antes de que termine, usamos la sentencia:",A) break
+21,"En la gestión de excepciones, ¿qué bloque de código se ejecuta SIEMPRE al final, independientemente de si ocurrió o no un error?",D) finally
+22,"En la jerarquía de errores de Java, ¿cuál es la clase padre (superclase) absoluta de la que derivan tanto `Error` como `Exception`?",C) Throwable
+23,¿Qué indica la palabra reservada `throws` en la firma de un método (ej. `public void leer() throws IOException`)?,B) Que el método avisa de una posible excepción.
+24,"Durante la depuración de código (Debug) en Eclipse, ¿para qué sirve establecer un 'Breakpoint' (Punto de interrupción)?",A) Para pausar la ejecución y poder ver las variables.
+25,"En las relaciones entre clases, ¿qué caracteriza a una 'Composición' frente a una Asociación simple?",D) Es una relación fuerte donde las partes dependen del todo.
+26,¿Qué palabra reservada permite que una clase herede los atributos y métodos de otra clase en Java?,B) extends
+27,"En una clase 'Hija' que hereda de una clase 'Padre', ¿para qué se utiliza la palabra `super`?",A) Para invocar métodos o constructores de la clase padre.
+28,¿Qué es el 'Polimorfismo' en la Programación Orientada a Objetos?,C) Tratar objetos de clases hijas como si fueran su padre.
+29,"Si vemos la anotación `@Override` justo encima de un método, significa que:",B) El método está reemplazando a un método heredado.
+30,¿Qué diferencia principal hay entre una Clase Abstracta y una Interfaz?,D) Se pueden implementar varias interfaces pero heredar de una clase.
+31,¿Cómo se declara correctamente una matriz (Array bidimensional) de números enteros en Java?,A) int[][] matriz = new int[5][5];
+32,"Al aplicar un algoritmo de ordenación básico sobre un Array numérico desordenado, el resultado esperado es:",C) Que los elementos queden organizados bajo un criterio (ej. menor a mayor).
+33,"La clase `String` en Java es 'inmutable', lo que significa que:",B) Su contenido original en memoria no puede modificarse.
+34,"Si aplicas el método `split('-')` a la cadena 'Juan-Perez-Lopez', ¿qué obtienes como resultado?",D) Un Array de Strings con tres elementos separados.
+35,¿Cuál es el propósito principal de usar Genéricos (la notación `<T>`) en colecciones como ArrayList?,A) Aportar seguridad obligando a guardar un tipo específico.
+36,"Dentro de la API de Colecciones, ¿cuál es la interfaz raíz (Top-Level) de la que derivan List, Set y Queue?",C) Collection
+37,¿Cuál es la principal diferencia entre un `ArrayList` y un Array tradicional (`[]`)?,B) El ArrayList crece dinámicamente al añadir elementos.
+38,"Si necesitas almacenar elementos garantizando que NO HAYA DUPLICADOS, la implementación más adecuada es:",D) HashSet
+39,La interfaz `Map` almacena la información mediante un sistema de:,A) Pares Clave/Valor (Key/Value).
+40,"Al trabajar con un `HashMap`, ¿qué devuelve el método `keySet()`?",C) Un conjunto (Set) con todas las claves registradas.
+41,"En la gestión de Entrada/Salida (I/O) en Java, ¿qué es un 'Stream'?",B) Un flujo secuencial de lectura o escritura.
+42,¿Cuál es la función específica de la clase `File` del paquete `java.io`?,D) Representar rutas y verificar si los archivos existen.
+43,"Para leer caracteres de un archivo de texto con alta eficiencia, reduciendo las llamadas al disco, se suele envolver el `FileReader` en un:",A) BufferedReader
+44,"Si necesitamos guardar el estado de un objeto Java directamente en un archivo binario, el objeto debe implementar la interfaz:",C) Serializable
+45,"En la Programación Dirigida por Eventos (ej. Interfaces Gráficas), ¿qué papel cumple un 'Listener' (Oyente)?",B) Espera una acción del usuario para ejecutar un código.
+46,"En una Base de Datos Relacional, ¿qué nombre recibe la estructura bidimensional compuesta por columnas (campos) y filas (registros)?",D) Tabla
+47,"Teniendo en cuenta el estándar, ¿a qué subgrupo del lenguaje SQL pertenecen las sentencias SELECT, INSERT, UPDATE y DELETE?",C) DML (Data Manipulation Language)
+48,"En la arquitectura JDBC para conectar Java a una Base de Datos, ¿cuál es la función principal del 'Driver'?",A) Actuar como intermediario entre Java y la base de datos.
+49,"Al ejecutar una consulta 'SELECT' mediante JDBC, el conjunto de filas devuelto por la base de datos se almacena en un objeto Java de tipo:",B) ResultSet
+50,"Frente a bases de objetos puros como Neodatis, el mercado actual demanda bases NoSQL como MongoDB, que usan el formato estructurado:",D) JSON

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termómetro Java - Core Fundamentals (UD1-UD11)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .noselect {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 noselect">
+    <div id="app" class="bg-white rounded-xl shadow-lg p-8 w-full max-w-3xl">
+        
+        <div id="start-screen" class="text-center">
+            <h1 class="text-3xl font-bold text-blue-800 mb-4">Simulacro Java: Fundamentos Core (UD1 a UD11)</h1>
+            <p class="text-gray-600 mb-6">Prueba de nivel enfocada estrictamente en algoritmia, POO orientada a objetos, control de excepciones, colecciones y flujos de datos. 30 preguntas, 60 minutos.</p>
+            <input type="text" id="student-name" placeholder="Escribe tu Nombre y Apellidos" class="w-full border-2 border-gray-300 rounded p-3 mb-4 focus:outline-none focus:border-blue-500 text-lg">
+            <button onclick="startTest()" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-xl font-bold hover:bg-blue-700 transition">Comenzar Test</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <span id="question-counter" class="text-gray-500 font-semibold"></span>
+                <span id="timer" class="text-red-500 font-bold text-xl">60:00</span>
+            </div>
+            <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-6"></h2>
+            <div id="options-container" class="space-y-3"></div>
+            <div class="mt-8 flex justify-between">
+                <button id="prev-btn" onclick="prevQuestion()" class="bg-gray-300 text-gray-700 px-6 py-2 rounded font-bold hover:bg-gray-400 hidden">Anterior</button>
+                <button id="next-btn" onclick="nextQuestion()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700 ml-auto">Siguiente</button>
+            </div>
+        </div>
+
+        <div id="end-screen" class="hidden text-center">
+            <h2 class="text-3xl font-bold text-green-600 mb-4">¡Prueba Finalizada!</h2>
+            <p class="text-gray-700 mb-6 text-lg">Tus respuestas han sido procesadas. El archivo se ha descargado automáticamente. Súbelo a la carpeta de evaluación en la plataforma virtual.</p>
+            <p class="text-sm text-gray-500">Si la descarga no ha comenzado automáticamente, pulsa el botón inferior:</p>
+            <button onclick="generateCSV()" class="mt-4 bg-green-600 text-white px-6 py-2 rounded font-bold hover:bg-green-700">Descargar Resultados (CSV)</button>
+        </div>
+    </div>
+
+    <script>
+        const misPreguntas = [{"pregunta": "¿Cuál de los siguientes es el tipo de dato primitivo en Java que ocupa menos espacio en memoria para almacenar números enteros?", "opciones": ["A) int", "B) short", "C) byte", "D) long"]}, {"pregunta": "En el diseño de programas (UD1), ¿qué diferencia el diseño general del diseño detallado?", "opciones": ["A) El general escribe el código y el detallado hace las pruebas.", "B) El general define la arquitectura (módulos) y el detallado los algoritmos y pseudocódigo de cada proceso.", "C) No hay diferencia, son dos nombres para la misma fase.", "D) El detallado solo se ocupa de la interfaz gráfica de usuario."]}, {"pregunta": "¿Qué ocurre al realizar un 'casting' (conversión de tipo) explícito de un 'double' (ej. 9.78) a un 'int' en Java?", "opciones": ["A) El número se redondea al entero más próximo (10).", "B) El compilador lanza un error porque no se pueden mezclar tipos numéricos.", "C) Se trunca la parte decimal, guardándose únicamente el valor entero (9).", "D) El programa se detiene por un ClassCastException."]}, {"pregunta": "En Programación Orientada a Objetos, el concepto de 'Encapsulación' consiste principalmente en:", "opciones": ["A) Ocultar los detalles de implementación y proteger los atributos de una clase frente a modificaciones externas no controladas.", "B) Meter todo el código en un único archivo comprimido (.jar).", "C) Heredar métodos de una superclase superior.", "D) Crear varias clases anidadas unas dentro de otras."]}, {"pregunta": "¿Qué modificador de acceso permite que un atributo o método sea visible en su propia clase y en todas las clases del mismo paquete, pero NO fuera de él?", "opciones": ["A) public", "B) private", "C) default (paquete)", "D) protected"]}, {"pregunta": "¿Cómo se indica en Java que una clase hereda de otra?", "opciones": ["A) Usando la palabra reservada 'inherits'.", "B) Usando la palabra reservada 'implements'.", "C) Usando la palabra reservada 'extends'.", "D) Usando el símbolo ':' después del nombre de la clase."]}, {"pregunta": "En Eclipse, si queremos generar la documentación técnica de nuestro proyecto automáticamente basándonos en nuestros comentarios, ¿qué tipo de comentario debemos usar?", "opciones": ["A) // comentario //", "B) /* comentario */", "C) /** comentario */ (Javadoc)", "D) <!-- comentario -->"]}, {"pregunta": "¿Qué entendemos por 'sobrecarga de métodos' (Method Overloading) en Java?", "opciones": ["A) Llamar a un método demasiadas veces provocando un desbordamiento de memoria.", "B) Tener múltiples métodos en la misma clase con el mismo nombre, pero con diferente número o tipo de parámetros.", "C) Redefinir en una subclase un método que ya existía en la clase padre.", "D) Asignar más de una función (return) al mismo método."]}, {"pregunta": "¿Cuál de las siguientes afirmaciones sobre los constructores es correcta?", "opciones": ["A) Un constructor debe devolver siempre un objeto explícitamente usando 'return'.", "B) Tienen el mismo nombre que la clase y no tienen un tipo de retorno definido (ni siquiera 'void').", "C) Solo puede existir un único constructor por clase.", "D) Los constructores solo se usan en las clases abstractas."]}, {"pregunta": "¿Qué función cumple el operador lógico '&&' (AND) en una instrucción 'if'?", "opciones": ["A) Suma dos valores booleanos.", "B) Devuelve true si al menos una de las dos condiciones es verdadera.", "C) Devuelve true exclusivamente si ambas condiciones son verdaderas a la vez.", "D) Invierte el valor lógico de una condición."]}, {"pregunta": "Respecto al bucle 'do-while', ¿cuál es su característica distintiva principal frente al bucle 'while' tradicional?", "opciones": ["A) El do-while no necesita una condición para terminar.", "B) El bloque de código del do-while se ejecuta siempre AL MENOS una vez, ya que la condición se evalúa al final.", "C) Solo funciona con variables numéricas enteras.", "D) Permite recorrer directamente arrays sin usar índices."]}, {"pregunta": "Dentro de una estructura 'switch', ¿qué palabra reservada empleamos para salir del bloque una vez que se ha ejecutado el caso correspondiente?", "opciones": ["A) exit", "B) continue", "C) break", "D) return"]}, {"pregunta": "Si queremos recorrer una matriz unidimensional (array) de 10 elementos mediante un bucle 'for', ¿cuál será el valor del último índice válido?", "opciones": ["A) 1", "B) 9", "C) 10", "D) 11"]}, {"pregunta": "¿Qué ocurre si una porción de código dentro de un bloque 'try' lanza una excepción que no está capturada por ningún 'catch' asociado?", "opciones": ["A) El programa simplemente ignora el error y continúa en la siguiente línea.", "B) El bloque 'finally' (si existe) se ignora por completo.", "C) La excepción se propaga hacia arriba en la pila de llamadas, pudiendo detener el programa abruptamente.", "D) Java reinicia el bloque try automáticamente hasta que no haya error."]}, {"pregunta": "¿Qué uso tiene el bloque 'finally' dentro del control de excepciones?", "opciones": ["A) Se utiliza para forzar un cierre total de la aplicación.", "B) Contiene código que se ejecutará SIEMPRE, haya ocurrido una excepción o no (ideal para cerrar recursos).", "C) Solo se ejecuta si no se ha producido ningún error en el bloque try.", "D) Es donde se declaran las variables que usaremos en el try."]}, {"pregunta": "Según la jerarquía de excepciones de Java, ¿qué clase es la 'madre' o superclase de todos los errores y excepciones?", "opciones": ["A) Exception", "B) RuntimeException", "C) Object", "D) Throwable"]}, {"pregunta": "¿Cuál es la principal característica de una interfaz en Java (pre-Java 8)?", "opciones": ["A) Contiene únicamente constantes y firmas de métodos abstractos sin cuerpo (sin implementación).", "B) Es una clase que no puede tener hijos pero sí métodos con cuerpo completo.", "C) Se usa exclusivamente para diseñar la interfaz gráfica con Swing.", "D) Reemplaza al concepto de variable global."]}, {"pregunta": "El 'Polimorfismo' nos permite:", "opciones": ["A) Escribir un programa que funcione en Windows y Linux sin cambiar de código.", "B) Que distintas subclases respondan a un mismo mensaje (llamada a método) de manera diferente, según su propia implementación.", "C) Cambiar el tipo de una variable de int a String en tiempo de ejecución.", "D) Comprimir la memoria que utiliza una aplicación."]}, {"pregunta": "¿Qué conseguimos al declarar una clase con la palabra reservada 'final'?", "opciones": ["A) Que la clase no pueda ser instanciada (no se puedan crear objetos).", "B) Que sus atributos se conviertan automáticamente en interfaces.", "C) Impedir que otras clases puedan heredar (hacer extends) de ella.", "D) Que el código se compile más rápido."]}, {"pregunta": "Si tenemos la clase genérica `ArrayList<E>`, ¿qué significa la letra 'E'?", "opciones": ["A) Es una variable local oculta.", "B) Indica que la colección solo acepta elementos que generen Excepciones.", "C) Es un parámetro de tipo formal genérico que representa el Tipo de Elemento que almacenará la colección.", "D) Hace referencia al compilador de Eclipse."]}, {"pregunta": "Al trabajar con colecciones en Java, ¿cuál es la gran diferencia funcional entre una 'List' y un 'Set'?", "opciones": ["A) List solo admite números, Set solo admite Strings.", "B) List admite elementos duplicados y mantiene un orden de inserción; Set NO admite elementos duplicados.", "C) Set es mucho más lento de recorrer que List.", "D) No existen diferencias, son sinónimos en java.util."]}, {"pregunta": "¿Qué implementación de la interfaz 'Map' utiliza internamente una tabla hash para almacenar pares clave/valor, garantizando búsquedas muy rápidas pero sin conservar el orden de entrada?", "opciones": ["A) TreeMap", "B) ArrayList", "C) HashMap", "D) LinkedList"]}, {"pregunta": "Tenemos la cadena: \'Java es genial\'. ¿Qué método usaríamos para obtener la longitud total de esta cadena?", "opciones": ["A) frase.size()", "B) frase.length()", "C) frase.capacity()", "D) frase.count()"]}, {"pregunta": "La utilidad principal de la clase 'StringTokenizer' (UD9) es:", "opciones": ["A) Encriptar contraseñas en formato texto.", "B) Unir varias cadenas separadas en una sola gran cadena.", "C) Realizar análisis lexicográficos y dividir una cadena en subcadenas (tokens) utilizando uno o más delimitadores.", "D) Convertir un objeto puro a formato de texto."]}, {"pregunta": "En la jerarquía de flujos de Entrada/Salida (UD11), ¿cuál es la diferencia clave entre usar un 'InputStream' y un 'Reader'?", "opciones": ["A) InputStream lee datos de internet, Reader lee del disco duro.", "B) InputStream lee flujos orientados a bytes (datos en crudo), mientras que Reader está especializado en flujos orientados a caracteres de texto.", "C) Reader solo sirve para leer archivos PDF.", "D) InputStream es para escritura y Reader es para lectura."]}, {"pregunta": "¿Para qué sirve exactamente la clase 'File' del paquete java.io?", "opciones": ["A) Para escribir líneas de texto en un archivo del disco duro.", "B) Es una abstracción que representa la ruta de un archivo o directorio, permitiendo consultar propiedades (tamaño, permisos) pero NO sirve para leer su contenido interno directamente.", "C) Para formatear el disco duro.", "D) Es un equivalente obsoleto de la clase String."]}, {"pregunta": "Si necesitamos guardar (escribir) un objeto Java directamente en un archivo binario para mantener su persistencia nativa, ¿qué técnica utilizamos?", "opciones": ["A) La Serialización (ObjectOutputStream)", "B) El casting de objetos a texto (TextCasting)", "C) Un StringTokenizer inverso", "D) Un Reader estándar"]}, {"pregunta": "En Java, ¿qué sucede cuando se comparan dos objetos utilizando el operador `==` en lugar del método `.equals()`?", "opciones": ["A) Devuelve true si ambos objetos tienen los mismos datos en sus atributos.", "B) Devuelve true exclusivamente si ambas referencias apuntan exactamente a la misma dirección (al mismo objeto) en memoria.", "C) Genera siempre un error de compilación.", "D) Invoca automáticamente al recolector de basura."]}, {"pregunta": "¿Qué palabra reservada empleamos en la declaración de un método para indicar que ese método 'delega' la responsabilidad de manejar una excepción hacia quien lo haya invocado?", "opciones": ["A) try", "B) pass", "C) throws", "D) ignore"]}, {"pregunta": "Cuando hablamos de 'Entrada/Salida Estándar' (System.out y System.in) en consola, el objeto System.out representa por defecto:", "opciones": ["A) La impresora predeterminada del sistema operativo.", "B) Un archivo log oculto en el disco duro.", "C) El flujo de salida estándar (habitualmente la pantalla/consola).", "D) La conexión a internet del IDE."]}];
+        
+        let currentQuestion = 0;
+        let answers = new Array(misPreguntas.length).fill(null);
+        let studentName = "";
+        let timeLeft = 3600; // 60 minutos
+        let timerInterval;
+
+        function startTest() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            if(nameInput === "") {
+                alert("Por favor, introduce tu nombre antes de comenzar.");
+                return;
+            }
+            studentName = nameInput;
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+                if(timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = misPreguntas[currentQuestion];
+            document.getElementById('question-counter').innerText = `Pregunta ${currentQuestion + 1} de ${misPreguntas.length}`;
+            document.getElementById('question-text').innerText = q.pregunta;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.opciones.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded border-2 transition font-medium ${answers[currentQuestion] === index ? 'bg-blue-100 border-blue-500 text-blue-800' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}`;
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('prev-btn').classList.toggle('hidden', currentQuestion === 0);
+            const nextBtn = document.getElementById('next-btn');
+            if(currentQuestion === misPreguntas.length - 1) {
+                nextBtn.innerText = "Finalizar Repaso";
+                nextBtn.classList.replace('bg-blue-600', 'bg-green-600');
+                nextBtn.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+            } else {
+                nextBtn.innerText = "Siguiente";
+                nextBtn.classList.replace('bg-green-600', 'bg-blue-600');
+                nextBtn.classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+            }
+        }
+
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            loadQuestion();
+        }
+
+        function prevQuestion() {
+            if(currentQuestion > 0) { currentQuestion--; loadQuestion(); }
+        }
+
+        function nextQuestion() {
+            if(currentQuestion < misPreguntas.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                if(confirm("¿Estás seguro de que deseas finalizar el test y generar tu informe de resultados?")) {
+                    clearInterval(timerInterval);
+                    finishTest();
+                }
+            }
+        }
+
+        function finishTest() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('end-screen').classList.remove('hidden');
+            generateCSV();
+        }
+
+        function generateCSV() {            
+            let csvContent = "Pregunta;Respuesta_Alumno\n";
+            misPreguntas.forEach((q, index) => {
+                const answerIndex = answers[index];
+                const textAnswer = answerIndex !== null ? q.opciones[answerIndex] : "No respondida";
+                csvContent += `"${q.pregunta}";"${textAnswer}"\n`;
+            });
+
+            let blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), csvContent], { type: "text/csv;charset=utf-8;" });
+            let link = document.createElement("a");
+            let cleanName = studentName.replace(/[^a-zA-Z0-9]/g, "_");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Resultados_Fundamentos_Core_${cleanName}.csv`;
+            link.click();
+        }
+        
+        // Anti-copia básico
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12') { e.preventDefault(); }
+            if (e.ctrlKey || e.metaKey) {
+                const teclasBloqueadas = ['c', 'v', 'x', 'p', 'u', 's', 'a'];
+                if (teclasBloqueadas.includes(e.key.toLowerCase())) { e.preventDefault(); }
+            }
+        });
+        document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+</html>
